@@ -1,4 +1,4 @@
-from src.masks import get_mask_card_number, get_mask_account
+from src.masks import get_mask_account, get_mask_card_number
 
 
 def mask_account_card(user_data: str) -> str:
@@ -14,17 +14,8 @@ def mask_account_card(user_data: str) -> str:
         raise ValueError("Неверная длина номера карты/счета")
 
 
-def get_date(date_data: str) ->str:
+def get_date(date_data: str) -> str:
     """
     Возвращает строку с датой в формате 'ДД.ММ.ГГГГ'
     """
-    return f'{date_data[8:10]}.{date_data[5:7]}.{date_data[0:4]}'
-
-
-
-
-
-
-
-
-
+    return f"{date_data[8:10]}.{date_data[5:7]}.{date_data[0:4]}"
