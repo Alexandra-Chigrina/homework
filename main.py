@@ -2,29 +2,30 @@ from src.masks import get_mask_account, get_mask_card_number
 from src.widget import mask_account_card
 from src.widget import get_date
 from src.processing import filter_by_state
+from src.processing import sort_by_date
 
 
-# card_number_input = int(input())
-# print(get_mask_card_number(card_number_input))
-#
-#
-# account_number_input = int(input())
-# print(get_mask_account(account_number_input))
-#
-#
-# # Maestro 1596837868705199
-# # Счет 64686473678894779589
-# # MasterCard 7158300734726758
-# # Счет 35383033474447895560
-# # Visa Classic 6831982476737658
-# # Visa Platinum 8990922113665229
-# # Visa Gold 5999414228426353
-# # Счет 73654108430135874305
-#
-# print(mask_account_card('Счет 7365410843013587'))
-#
-#
-# print(get_date('2024-03-11T02:26:18.671407'))
+card_number_input = int(input())
+print(get_mask_card_number(card_number_input))
+
+
+account_number_input = int(input())
+print(get_mask_account(account_number_input))
+
+
+# Maestro 1596837868705199
+# Счет 64686473678894779589
+# MasterCard 7158300734726758
+# Счет 35383033474447895560
+# Visa Classic 6831982476737658
+# Visa Platinum 8990922113665229
+# Visa Gold 5999414228426353
+# Счет 73654108430135874305
+
+print(mask_account_card('Счет 7365410843013587'))
+
+
+print(get_date('2024-03-11T02:26:18.671407'))
 
 
 example_of_dict = [
@@ -34,3 +35,4 @@ example_of_dict = [
     {'id': 615064591, 'state': 'CANCELED', 'date': '2018-10-14T08:21:33.419441'}
 ]
 print(filter_by_state(example_of_dict))
+print(sort_by_date(example_of_dict, False))
