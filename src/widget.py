@@ -19,8 +19,5 @@ def get_date(date_data: str) -> str:
     Возвращает строку с датой в формате 'ДД.ММ.ГГГГ'
     """
     if len(date_data) != 26:
-        raise ValueError('Неверный формат данных')
+        raise ValueError("Неверный формат данных")
     return f"{date_data[8:10]}.{date_data[5:7]}.{date_data[0:4]}"
-
-
-
