@@ -16,4 +16,9 @@ def sort_by_date(dict_list: list, reverse_value: bool = True) -> list:
     и возвращает новый список, отсортированный по дате
     """
     sorted_dict_list = sorted(dict_list, key=lambda dictionary: dictionary["date"], reverse=reverse_value)
+
+    for dictionary in dict_list:
+        if len(dictionary['date']) != 26:
+            raise ValueError
+
     return sorted_dict_list
