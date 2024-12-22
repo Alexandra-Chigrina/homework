@@ -6,7 +6,7 @@ def filter_by_currency(transactions: list[dict], currency_type: str) -> Iterator
     Принимает на вход список словарей с транзакциями, возвращает итератор,
     выдающий транзакции с заданной валютой операции
     """
-    if transactions == []:
+    if not transactions:
         return iter([])
     if currency_type not in ["USD", "RUB"]:
         return iter([])
@@ -19,7 +19,7 @@ def transaction_descriptions(transactions: list[dict]) -> Generator:
     """
     Принимает список словарей, возвращает описание каждой операции по очереди
     """
-    if transactions == []:
+    if not transactions:
         return
     for transaction in transactions:
         yield transaction.get("description")
