@@ -47,3 +47,23 @@ python main.py
 {'id': 594226727, 'state': 'CANCELED', 'date': '2018-09-12T21:27:25.241689'}, 
 {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}
 ]
+
+
+## **Тестирование**
+
+1. Установите pytest через Poetry
+```
+poetry add --group dev pytest
+```
+2. Запустить тестрование можно из модулей 'test_name', находящихся в папке 'tests' или в терминале
+```
+pytest
+```
+3. Для анализа покрытия кода тестами установите библиотеку 'pytest-cov'
+```commandline
+poetry add --group dev pytest-cov
+```
+4. Запустите тесты с оценкой покрытия
+```commandline
+pytest -cov
+```
