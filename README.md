@@ -65,5 +65,5 @@ poetry add --group dev pytest-cov
 ```
 4. Запустите тесты с оценкой покрытия
 ```commandline
-pytest -cov
+pytest --cov=src --cov-report=term-missing tests/
 ```
