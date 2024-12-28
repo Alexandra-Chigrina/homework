@@ -132,10 +132,10 @@ from src.decorators import log
 # for card_number in card_number_generator(8952458625865240, 8952458625865245):
 #     print(card_number)
 
-# @log('mylog.txt')
-@log()
+@log('mylog.txt')
+# @log()
 def my_function(x: int, y: int) -> int:
     return x / y
 
 
-print(my_function(12, 6))
+print(my_function(12, 0))
