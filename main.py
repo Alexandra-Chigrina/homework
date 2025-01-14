@@ -1,7 +1,8 @@
 # from src.masks import get_mask_account, get_mask_card_number
 # from src.processing import filter_by_state, sort_by_date
 # from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
-from src.decorators import log
+# from src.decorators import log
+from src.utils import get_financial_transactions, path_to_file
 
 # from src.widget import get_date, mask_account_card
 
@@ -133,10 +134,14 @@ from src.decorators import log
 #     print(card_number)
 
 
-@log("mylog.txt")
-# @log()
-def my_function(x: int, y: int) -> float:
-    return x / y
+# @log("mylog.txt")
+# # @log()
+# def my_function(x: int, y: int) -> float:
+#     return x / y
+#
+#
+# print(my_function(12, 0))
 
 
-print(my_function(12, 0))
+result = get_financial_transactions(path_to_file)
+print(result)
