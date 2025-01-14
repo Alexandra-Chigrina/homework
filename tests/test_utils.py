@@ -18,6 +18,13 @@ def test_get_financial_transactions_empty(mock_file):
 
 @patch('builtins.open', new_callable=mock_open,
        read_data='{"id": 441945886, "currency": "RUB", "amount": "31957.58"}')
+def test_get_financial_transactions_not_list(mock_file):
+    fin_trans = get_financial_transactions('test.json')
+    assert fin_trans == []
+
+
+@patch('builtins.open', new_callable=mock_open,
+       read_data="[{'id': 441945886, 'currency': 'RUB', 'amount': '31957.58'}]")
 def test_get_financial_transactions_incorrect(mock_file):
     fin_trans = get_financial_transactions('test.json')
     assert fin_trans == []

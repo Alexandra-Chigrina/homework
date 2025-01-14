@@ -25,6 +25,6 @@ def get_financial_transactions(path: str) -> list[dict] :
 path_to_file = os.path.join(os.path.dirname(__file__), '..', 'data', 'operations.json')
 
 
-if __name__ == '__main__':
-    result = get_financial_transactions(path_to_file)
-    print(result)
+# if __name__ == '__main__':
+#     result = get_financial_transactions(path_to_file)
+#     print(result)
