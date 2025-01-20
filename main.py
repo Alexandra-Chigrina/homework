@@ -1,4 +1,5 @@
-# from src.masks import get_mask_account, get_mask_card_number
+from src.masks import get_mask_account, get_mask_card_number
+
 # from src.processing import filter_by_state, sort_by_date
 # from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
 # from src.decorators import log
@@ -6,12 +7,12 @@ from src.utils import get_financial_transactions, path_to_file
 
 # from src.widget import get_date, mask_account_card
 
-# card_number_input = int(input())
-# print(get_mask_card_number(card_number_input))
-#
-#
-# account_number_input = int(input())
-# print(get_mask_account(account_number_input))
+card_number_input = int(input())
+print(get_mask_card_number(card_number_input))
+
+
+account_number_input = int(input())
+print(get_mask_account(account_number_input))
 #
 #
 # # Maestro 1596837868705199
