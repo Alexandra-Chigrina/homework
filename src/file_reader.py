@@ -43,8 +43,8 @@ path_to_csv_file = os.path.join(os.path.dirname(__file__), "..", "data", "transa
 path_to_excel_file = os.path.join(os.path.dirname(__file__), "..", "data", "transactions_excel.xlsx")
 
 
-if __name__ == "__main__":
-    csv_result = read_csv_file(path_to_csv_file)
-    excel_result = read_excel_file(path_to_excel_file)
-    print(csv_result[:3])
-    print(excel_result[:3])
+# if __name__ == "__main__":
+#     csv_result = read_csv_file(path_to_csv_file)
+#     excel_result = read_excel_file(path_to_excel_file)
+#     print(csv_result[:3])
+#     print(excel_result[:3])
