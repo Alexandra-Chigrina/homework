@@ -39,9 +39,9 @@ def get_mask_account(account_number: int) -> str:
     return f"**{str_account_number[-4:]}"
 
 
-if __name__ == "__main__":
-    card_number_input = int(input())
-    print(get_mask_card_number(card_number_input))
-
-    account_number_input = int(input())
-    print(get_mask_account(account_number_input))
+# if __name__ == "__main__":
+#     card_number_input = int(input())
+#     print(get_mask_card_number(card_number_input))
+#
+#     account_number_input = int(input())
+#     print(get_mask_account(account_number_input))

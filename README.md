@@ -1,54 +1,69 @@
 # **Homework**
 
-
 ## **Описание**:
 
 Проект 'Homework' - это виджет, который показывает несколько последних успешных банковских операций клиента.
 
-
-
 ## **Установка**:
 
-1. Клонируйте репозиторий 
+1. Клонируйте репозиторий
+
 ```
 git clone git@github.com:Alexandra-Chigrina/homework.git
 ```
+
 2. В терминале инициализируйте Poetry и активируйте виртуальное окружение
+
 ```
 poetry init
 poetry shell
 ```
+
 3. Установите зависимости
+
 ```
 pip install -r requirements.txt
 ```
 
-
 ## **Использование**:
 
 1. запустите скрипты из модуля main.py в корне репозитория
+
 ```commandline
 python main.py
 ```
+
 2. В модуле src/generators.py реализованы следующие функции:
     - filter_by_currency - функция фильтрации данных по заданной валюте;
     - transaction_descriptions - функция, возвращающая описание каждой операции;
     - card_number_generator - функция-генератор номеров банковских карт.
 3. В модуле src/decorators.py реализованы функции:
     - log - декоратор, автоматически логирующий начало и конец выполнения функции, ее результаты и
-      возникшие ошибки. Декоратор принимает необязательный элемент filename, определяющий 
+      возникшие ошибки. Декоратор принимает необязательный элемент filename, определяющий
       куда записываются логи (в заданный файл или по умолчанию в консоль)
+4. В модуле src/external_api.py реализована функция get_transaction_amount, которая принимает на вход
+   транзакцию и возвращает ее сумму в рублях. Если была в валюте, отличной от RUB, происходит обращение 
+   к внешнему API для уточнения курса валюты.
+5. В модуле src/utils.py реализована функция get_financial_transactions, 
+   принимающая путь на JSON-файл и возвращающая список словарей.
+6. В модуле src/file_reader.py реализованы функции, считывающие  финансовые операции из
+   CSV- и XLSX-файлов:
+   - read_csv_file;
+   - read_excel_file.
 
 ## **Примеры работы**:
 
 - пример работы функции filter_by_state (со статусом по умолчанию 'EXECUTED'):
+
 ```
 [
 {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, 
 {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}
 ]
 ```
+
 - пример работы функции (сортировка по убыванию, т. е. сначала самые последние операции):
+
 ```
 [
 {'id': 41428829, 'state': 'EXECUTED', 'date': '2019-07-03T18:35:29.512364'}, 
@@ -57,12 +72,15 @@ python main.py
 {'id': 939719570, 'state': 'EXECUTED', 'date': '2018-06-30T02:08:58.425572'}
 ]
 ```
+
 - пример работы функциии transaction_descriptions:
+
 ```commandline
 descriptions = transaction_descriptions(transactions)
 for _ in range(5):
     print(next(descriptions))
 ```
+
     Результат:
 
     Перевод организации
@@ -70,12 +88,14 @@ for _ in range(5):
     Перевод со счета на счет
     Перевод с карты на карту
     Перевод организации
-    
+
 - пример работы функции card_number_generator:
+
 ```commandline
 for card_number in card_number_generator(1, 5):
     print(card_number
 ```
+
     Результат:    
 
     0000 0000 0000 0001
@@ -85,6 +105,7 @@ for card_number in card_number_generator(1, 5):
     0000 0000 0000 0005
 
 - пример работы функциии log:
+
 ```commandline
 @log(filename="mylog.txt")
 def my_function(x, y):
@@ -92,6 +113,7 @@ def my_function(x, y):
 
 my_function(x1, y1)
 ```
+
 ```
 Ожидаемый вывод в лог-файл mylog.txt при успешном выполнении:
 'my_function ok'
@@ -100,22 +122,28 @@ my_function(x1, y1)
 'my_function error: тип ошибки. Inputs: (x1, y1), {}'
 ```
 
-
 ## **Тестирование**
 
 1. Установите pytest через Poetry
+
 ```
 poetry add --group dev pytest
 ```
+
 2. Запустить тестрование можно из модулей 'test_name', находящихся в папке 'tests' или в терминале
+
 ```
 pytest
 ```
+
 3. Для анализа покрытия кода тестами установите библиотеку 'pytest-cov'
+
 ```commandline
 poetry add --group dev pytest-cov
 ```
+
 4. Запустите тесты с оценкой покрытия
+
 ```commandline
 pytest --cov=src --cov-report=term-missing tests/
 ```
