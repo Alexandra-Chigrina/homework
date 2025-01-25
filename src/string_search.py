@@ -1,6 +1,6 @@
 import re
 
-from src.utils import get_financial_transactions, path_to_file
+# from src.utils import get_financial_transactions, path_to_file
 # from src.file_reader import read_csv_file, read_excel_file, path_to_excel_file, path_to_csv_file
 
 
@@ -18,10 +18,10 @@ def search_string_in_description(transactions: list[dict], search_string: str) -
     return new_trans_dict
 
 
-if __name__ == '__main__':
-    trans = get_financial_transactions(path_to_file)
-    result = search_string_in_description(trans, "Перевод")
-    print(result)
+# if __name__ == '__main__':
+#     trans = get_financial_transactions(path_to_file)
+#     result = search_string_in_description(trans, "Перевод")
+#     print(result)
 
 # if __name__ == '__main__':
 #     trans = read_csv_file(path_to_csv_file)
