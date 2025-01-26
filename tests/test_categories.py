@@ -11,7 +11,7 @@ def test_find_categories(transactions_3):
 
 def test_find_categories_empty_cat_list(transactions_3):
     category_list = []
-    assert find_categories(transactions_3, []) == {}
+    assert find_categories(transactions_3, category_list) == {}
 
 
 def test_find_categories_empty_trans_list():

@@ -1,20 +1,24 @@
-from src.utils import get_financial_transactions, path_to_file
-from src.file_reader import read_csv_file, read_excel_file, path_to_csv_file, path_to_excel_file
+from typing import Any
+
+from src.file_reader import path_to_csv_file, path_to_excel_file, read_csv_file, read_excel_file
+from src.masks import get_mask_account, get_mask_card_number
 from src.processing import filter_by_state, sort_by_date
 from src.string_search import search_string_in_description
-from src.masks import get_mask_account, get_mask_card_number
-from typing import Any
+from src.utils import get_financial_transactions, path_to_file
 
 
 def get_account_data(trans: dict) -> str:
-    if str(trans["from"]) == 'nan':
+    """
+    Приводит к нужному формату данные счетов и карт, с которых и на которые осуществлялась транзакция
+    """
+    if str(trans["from"]) == "nan":
         del trans["from"]
-    if str(trans["to"]) == 'nan':
+    if str(trans["to"]) == "nan":
         del trans["to"]
 
     if trans.get("from"):
         from_account = str(trans.get("from")).split()
-        if from_account[0].lower() == 'счет':
+        if from_account[0].lower() == "счет":
             from_data = f"{" ".join(from_account[0:-1])} {get_mask_account(from_account[-1])} -> "
         else:
             from_data = f"{" ".join(from_account[0:-1])} {get_mask_card_number(from_account[-1])} -> "
@@ -23,7 +27,7 @@ def get_account_data(trans: dict) -> str:
 
     if trans.get("to"):
         to_account = str(trans.get("to")).split()
-        if to_account[0].lower() == 'счет':
+        if to_account[0].lower() == "счет":
             to_data = f"{" ".join(to_account[0:-1])} {get_mask_account(to_account[-1])}"
         else:
             to_data = f"{" ".join(to_account[0:-1])} {get_mask_card_number(to_account[-1])}"
@@ -34,6 +38,9 @@ def get_account_data(trans: dict) -> str:
 
 
 def main() -> Any:
+    """
+    Отвечает за основную логику проекта с пользователем и связывает функциональности между собой
+    """
 
     print(
         "Привет! Добро пожаловать в программу работы с банковскими транзакциями.\n"
@@ -98,21 +105,24 @@ def main() -> Any:
         trans_currency_input = input("Выводить только рублевые транзакции? Да/Нет: ")
     if trans_currency_input == "да":
         if file_type_input == "1":
-            rub_trans = \
-                [trans for trans in filtered_transactions if trans["operationAmount"]["currency"]["code"] == "RUB"]
+            rub_trans = [
+                trans for trans in filtered_transactions if trans["operationAmount"]["currency"]["code"] == "RUB"
+            ]
 
         else:
             rub_trans = [trans for trans in filtered_transactions if trans["currency_code"] == "RUB"]
         filtered_transactions = rub_trans
 
     # 3 вопрос. Фильтрация по определенному слову в описании
-    filter_description_input = input("Отфильтровать список транзакций по определенному слову в описании?\n"
-                               "Да/Нет: ").lower()
+    filter_description_input = input(
+        "Отфильтровать список транзакций по определенному слову в описании?\n" "Да/Нет: "
+    ).lower()
     while filter_description_input not in ["да", "нет"]:
-        filter_description_input = input("Отфильтровать список транзакций по определенному слову в описании?\n"
-                                         "Да/Нет: ").lower()
+        filter_description_input = input(
+            "Отфильтровать список транзакций по определенному слову в описании?\n" "Да/Нет: "
+        ).lower()
     if filter_description_input == "да":
-        search_word= input("Введите слово, по которому будет происходить фильтрация: ")
+        search_word = input("Введите слово, по которому будет происходить фильтрация: ")
         if not filtered_transactions:
             filtered_transactions = []
         else:
@@ -135,9 +145,11 @@ def main() -> Any:
                 trans_amount = trans["amount"]
                 trans_currency = trans["currency_code"]
 
-            print(f"{trans_date} {trans.get("description")}\n"
-                  f"{from_to_accounts}\n"
-                  f"Сумма: {trans_amount} {trans_currency}\n")
+            print(
+                f"{trans_date} {trans.get("description")}\n"
+                f"{from_to_accounts}\n"
+                f"Сумма: {trans_amount} {trans_currency}\n"
+            )
 
 
 if __name__ == "__main__":
