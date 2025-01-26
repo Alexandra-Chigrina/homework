@@ -20,7 +20,7 @@ def search_string_in_description(transactions: list[dict], search_string: str) -
 
 # if __name__ == '__main__':
 #     trans = get_financial_transactions(path_to_file)
-#     result = search_string_in_description(trans, "Перевод")
+#     result = search_string_in_description(trans, "открытие")
 #     print(result)
 
 # if __name__ == '__main__':

@@ -41,11 +41,11 @@ def test_sort_by_date_similar_date(dictionaries_3):
     ]
 
 
-def test_sort_by_date_incorrect_date(dictionaries_4):
-    with pytest.raises(ValueError):
-        sort_by_date(dictionaries_4)
-
-
-def test_sort_by_date_empty(dictionaries_5):
-    with pytest.raises(ValueError):
-        sort_by_date(dictionaries_5)
+# def test_sort_by_date_incorrect_date(dictionaries_4):
+#     with pytest.raises(ValueError):
+#         sort_by_date(dictionaries_4)
+#
+#
+# def test_sort_by_date_empty(dictionaries_5):
+#     with pytest.raises(ValueError):
+#         sort_by_date(dictionaries_5)

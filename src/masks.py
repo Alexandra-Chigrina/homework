@@ -11,11 +11,11 @@ logger.addHandler(file_handler)
 logger.setLevel(logging.DEBUG)
 
 
-def get_mask_card_number(card_number: int) -> str:
+def get_mask_card_number(str_card_number: str) -> str:
     """
     Возвращает маску номера карты
     """
-    str_card_number = str(card_number)
+    # str_card_number = str(card_number)
     logger.info("Выполняем проверку длины номера карты")
     if len(str_card_number) != 16:
         logger.error("Неверная длина номера карты")
@@ -25,11 +25,11 @@ def get_mask_card_number(card_number: int) -> str:
     return f"{str_card_number[:4]} {str_card_number[4:6]}** **** {str_card_number[-4:]}"
 
 
-def get_mask_account(account_number: int) -> str:
+def get_mask_account(str_account_number: str) -> str:
     """
     Возвращает маску номера счета
     """
-    str_account_number = str(account_number)
+    # str_account_number = str(account_number)
     logger.info("Проверяем длину номера счета")
     if len(str_account_number) != 20:
         logger.error("Неверная длина номера счета")
@@ -40,8 +40,8 @@ def get_mask_account(account_number: int) -> str:
 
 
 # if __name__ == "__main__":
-#     card_number_input = int(input())
+#     card_number_input = input()
 #     print(get_mask_card_number(card_number_input))
 #
-#     account_number_input = int(input())
+#     account_number_input = input()
 #     print(get_mask_account(account_number_input))
