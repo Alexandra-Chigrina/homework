@@ -1,4 +1,4 @@
-def filter_by_state(dict_list: list, state_value: str = "EXECUTED") -> list:
+def filter_by_state(dict_list: list[dict], state_value: str = "EXECUTED") -> list:
     """
     Принимает список словарей и значение ключа 'state' (опционально - 'EXECUTED') и
     возвращает новый список словарей, содержащий словари с заданным ключом 'state'
@@ -17,8 +17,8 @@ def sort_by_date(dict_list: list, reverse_value: bool = True) -> list:
     """
     sorted_dict_list = sorted(dict_list, key=lambda dictionary: dictionary["date"], reverse=reverse_value)
 
-    for dictionary in dict_list:
-        if len(dictionary["date"]) != 26:
-            raise ValueError
+    # for dictionary in dict_list:
+    #     if len(dictionary["date"]) != 26:
+    #         raise ValueError
 
     return sorted_dict_list

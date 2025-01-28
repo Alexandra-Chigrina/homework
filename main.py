@@ -1,148 +1,157 @@
-from src.masks import get_mask_account, get_mask_card_number
+from typing import Any
 
-# from src.processing import filter_by_state, sort_by_date
-# from src.generators import card_number_generator, filter_by_currency, transaction_descriptions
-# from src.decorators import log
+from src.file_reader import path_to_csv_file, path_to_excel_file, read_csv_file, read_excel_file
+from src.masks import get_mask_account, get_mask_card_number
+from src.processing import filter_by_state, sort_by_date
+from src.string_search import search_string_in_description
 from src.utils import get_financial_transactions, path_to_file
 
-# from src.widget import get_date, mask_account_card
 
-card_number_input = int(input())
-print(get_mask_card_number(card_number_input))
+def get_account_data(trans: dict) -> str:
+    """
+    Приводит к нужному формату данные счетов и карт, с которых и на которые осуществлялась транзакция
+    """
+    if str(trans["from"]) == "nan":
+        del trans["from"]
+    if str(trans["to"]) == "nan":
+        del trans["to"]
 
+    if trans.get("from"):
+        from_account = str(trans.get("from")).split()
+        if from_account[0].lower() == "счет":
+            from_data = f"{" ".join(from_account[0:-1])} {get_mask_account(from_account[-1])} -> "
+        else:
+            from_data = f"{" ".join(from_account[0:-1])} {get_mask_card_number(from_account[-1])} -> "
+    else:
+        from_data = ""
 
-account_number_input = int(input())
-print(get_mask_account(account_number_input))
-#
-#
-# # Maestro 1596837868705199
-# # Счет 64686473678894779589
-# # MasterCard 7158300734726758
-# # Счет 35383033474447895560
-# # Visa Classic 6831982476737658
-# # Visa Platinum 8990922113665229
-# # Visa Gold 5999414228426353
-# # Счет 73654108430135874305
-#
-# print(mask_account_card("Счет 7365410843013587"))
-#
-#
-# print(get_date("2024-03-11T02:26:18.671407"))
+    if trans.get("to"):
+        to_account = str(trans.get("to")).split()
+        if to_account[0].lower() == "счет":
+            to_data = f"{" ".join(to_account[0:-1])} {get_mask_account(to_account[-1])}"
+        else:
+            to_data = f"{" ".join(to_account[0:-1])} {get_mask_card_number(to_account[-1])}"
+    else:
+        to_data = ""
 
-
-# example_of_dict = [
-#     {"id": 41428829, "state": "EXECUTED", "date": "2019-07-03T18:35:29.512364"},
-#     {"id": 939719570, "state": "EXECUTED", "date": "2018-06-30T02:08:58.425572"},
-#     {"id": 594226727, "state": "CANCELED", "date": "2019-07-03T21:27:25.241689"},
-#     {"id": 615064591, "state": "CANCELED", "date": "2018-10-14T08:21:33.419441"},
-# ]
-# print(filter_by_state(example_of_dict))
-# print(sort_by_date(example_of_dict, False))
-
-#
-# transactions = (
-#     [
-#         {
-#             "id": 939719570,
-#             "state": "EXECUTED",
-#             "date": "2018-06-30T02:08:58.425572",
-#             "operationAmount": {
-#                 "amount": "9824.07",
-#                 "currency": {
-#                     "name": "USD",
-#                     "code": "USD"
-#                 }
-#             },
-#             "description": "Перевод организации",
-#             "from": "Счет 75106830613657916952",
-#             "to": "Счет 11776614605963066702"
-#         },
-#         {
-#             "id": 142264268,
-#             "state": "EXECUTED",
-#             "date": "2019-04-04T23:20:05.206878",
-#             "operationAmount": {
-#                 "amount": "79114.93",
-#                 "currency": {
-#                     "name": "USD",
-#                     "code": "USD"
-#                 }
-#             },
-#             "description": "Перевод со счета на счет",
-#             "from": "Счет 19708645243227258542",
-#             "to": "Счет 75651667383060284188"
-#         },
-#         {
-#             "id": 873106923,
-#             "state": "EXECUTED",
-#             "date": "2019-03-23T01:09:46.296404",
-#             "operationAmount": {
-#                 "amount": "43318.34",
-#                 "currency": {
-#                     "name": "руб.",
-#                     "code": "RUB"
-#                 }
-#             },
-#             "description": "Перевод со счета на счет",
-#             "from": "Счет 44812258784861134719",
-#             "to": "Счет 74489636417521191160"
-#         },
-#         {
-#             "id": 895315941,
-#             "state": "EXECUTED",
-#             "date": "2018-08-19T04:27:37.904916",
-#             "operationAmount": {
-#                 "amount": "56883.54",
-#                 "currency": {
-#                     "name": "USD",
-#                     "code": "USD"
-#                 }
-#             },
-#             "description": "Перевод с карты на карту",
-#             "from": "Visa Classic 6831982476737658",
-#             "to": "Visa Platinum 8990922113665229"
-#         },
-#         {
-#             "id": 594226727,
-#             "state": "CANCELED",
-#             "date": "2018-09-12T21:27:25.241689",
-#             "operationAmount": {
-#                 "amount": "67314.70",
-#                 "currency": {
-#                     "name": "руб.",
-#                     "code": "RUB"
-#                 }
-#             },
-#             "description": "Перевод организации",
-#             "from": "Visa Platinum 1246377376343588",
-#             "to": "Счет 14211924144426031657"
-#         }
-#     ]
-# )
-#
-#
-# usd_transactions = filter_by_currency(transactions, 'USD')
-# for _ in range(3):
-#     print(next(usd_transactions))
-#
-#
-# descriptions = transaction_descriptions(transactions)
-# for _ in range(5):
-#     print(next(descriptions))
-#
-#
-# for card_number in card_number_generator(8952458625865240, 8952458625865245):
-#     print(card_number)
+    return f"{from_data}{to_data}"
 
 
-# @log("mylog.txt")
-# # @log()
-# def my_function(x: int, y: int) -> float:
-#     return x / y
-#
-#
-# print(my_function(12, 0))
+def main() -> Any:
+    """
+    Отвечает за основную логику проекта с пользователем и связывает функциональности между собой
+    """
+
+    print(
+        "Привет! Добро пожаловать в программу работы с банковскими транзакциями.\n"
+        """Выберите необходимый пункт меню:
+    1. Получить информацию о транзакциях из JSON-файла.
+    2. Получить информацию о транзакциях из CSV-файла.
+    3. Получить информацию о транзакциях из XLSX-файла."""
+    )
+
+    # пользователь выбирает файл для обработки
+    file_type_input = input()
+    transactions_data = []
+    while file_type_input not in ["1", "2", "3"]:
+        file_type_input = input("Введен некорректный номер. Попробуйте снова: ")
+
+    if file_type_input == "1":
+        print("Для обработки выбран JSON-файл.")
+        transactions_data = get_financial_transactions(path_to_file)
+    if file_type_input == "2":
+        print("Для обработки выбран CSV-файл.")
+        transactions_data = read_csv_file(path_to_csv_file)
+    if file_type_input == "3":
+        print("Для обработки выбран XLSX-файл.")
+        transactions_data = read_excel_file(path_to_excel_file)
+
+    # пользователь выбирает статус интересующих его операций
+    state_input = input(
+        "Введите статус, по которому необходимо выполнить фильтрацию.\n"
+        "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING: "
+    ).upper()
+    while state_input not in ["EXECUTED", "CANCELED", "PENDING"]:
+        print(f"Статус операции {state_input} недоступен")
+        state_input = input(
+            "Введите статус, по которому необходимо выполнить фильтрацию.\n"
+            "Доступные для фильтровки статусы: EXECUTED, CANCELED, PENDING: "
+        ).upper()
+
+    filtered_transactions = filter_by_state(transactions_data, state_input)
+
+    # пользователь отвечает на уточняющие вопросы
+    # # 1 вопрос. Сортировка операции по дате.
+    date_sorting_input = input("Отсортировать операции по дате? Да/Нет: ").lower()
+
+    while date_sorting_input not in ["да", "нет"]:
+        date_sorting_input = input("Отсортировать операции по дате? Да/Нет: ").lower()
+
+    if date_sorting_input == "да":
+        print("Отсортировать по возрастанию или по убыванию?")
+        date_sorting_type = input("По возрастанию/по убыванию: ").lower()
+        while date_sorting_type not in ["по возрастанию", "по убыванию"]:
+            print("Отсортировать по возрастанию или по убыванию?")
+            date_sorting_type = input("По возрастанию/по убыванию: ").lower()
+
+        if date_sorting_type == "по возрастанию":
+            filtered_transactions = sort_by_date(filtered_transactions, reverse_value=False)
+        elif date_sorting_type == "по убыванию":
+            filtered_transactions = sort_by_date(filtered_transactions)
+
+    # # 2 вопрос. Фильтрация операций по RUB.
+    trans_currency_input = input("Выводить только рублевые транзакции? Да/Нет: ").lower()
+    while trans_currency_input not in ["да", "нет"]:
+        trans_currency_input = input("Выводить только рублевые транзакции? Да/Нет: ")
+    if trans_currency_input == "да":
+        if file_type_input == "1":
+            rub_trans = [
+                trans for trans in filtered_transactions if trans["operationAmount"]["currency"]["code"] == "RUB"
+            ]
+
+        else:
+            rub_trans = [trans for trans in filtered_transactions if trans["currency_code"] == "RUB"]
+        filtered_transactions = rub_trans
+
+    # 3 вопрос. Фильтрация по определенному слову в описании
+    filter_description_input = input(
+        "Отфильтровать список транзакций по определенному слову в описании?\n" "Да/Нет: "
+    ).lower()
+    while filter_description_input not in ["да", "нет"]:
+        filter_description_input = input(
+            "Отфильтровать список транзакций по определенному слову в описании?\n" "Да/Нет: "
+        ).lower()
+    if filter_description_input == "да":
+        search_word = input("Введите слово, по которому будет происходить фильтрация: ")
+        if not filtered_transactions:
+            filtered_transactions = []
+        else:
+            filtered_transactions = search_string_in_description(filtered_transactions, search_word)
+
+    print("Распечатываю итоговый список транзакций...")
+    if len(filtered_transactions) == 0:
+        print("Не найдено ни одной транзакции, подходящей под ваши условия фильтрации.")
+    else:
+        print(f"Всего банковский операций в выборке: {len(filtered_transactions)}\n")
+
+        for trans in filtered_transactions:
+            date_data = trans.get("date")
+            trans_date = f"{date_data[8:10]}.{date_data[5:7]}.{date_data[0:4]}"
+            from_to_accounts = get_account_data(trans)
+            if file_type_input == "1":
+                trans_amount = trans["operationAmount"]["amount"]
+                trans_currency = trans["operationAmount"]["currency"]["code"]
+            else:
+                trans_amount = trans["amount"]
+                trans_currency = trans["currency_code"]
+
+            print(
+                f"{trans_date} {trans.get("description")}\n"
+                f"{from_to_accounts}\n"
+                f"Сумма: {trans_amount} {trans_currency}\n"
+            )
 
 
-result = get_financial_transactions(path_to_file)
-print(result)
+if __name__ == "__main__":
+    result = main()
+    print(result)
